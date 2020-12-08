@@ -1,0 +1,42 @@
+specVersion: 0.0.2
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: Aergo
+    network: mainnet
+    source:
+      address: "0x91Af0fBB28ABA7E31403Cb457106Ce79397FD4E6"
+      abi: Aergo
+      startBlock: 10954411
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - AddedToBlacklist
+        - Approval
+        - OwnershipTransferred
+        - Pause
+        - RemovedFromBlacklist
+        - Transfer
+        - Unpause
+      abis:
+        - name: Aergo
+          file: ./abis/Aergo.json
+      eventHandlers:
+        - event: AddedToBlacklist(indexed address)
+          handler: handleAddedToBlacklist
+        - event: Approval(indexed address,indexed address,uint256)
+          handler: handleApproval
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: Pause()
+          handler: handlePause
+        - event: RemovedFromBlacklist(indexed address)
+          handler: handleRemovedFromBlacklist
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+        - event: Unpause()
+          handler: handleUnpause
+      file: ./src/mapping.ts
